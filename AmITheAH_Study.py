@@ -31,11 +31,11 @@ for submission in subreddit.new(limit=8):
         posts_replied_to = list(filter(None, posts_replied_to))
         i += 1
 
-# create DB
+# connect to DB
 connection = pymysql.connect(host='localhost',
                              user='root',
                              port=3306,
-                             password= AmITheAH_Study_Settings.pwd,
+                             password=AmITheAH_Study_Settings.pwd,
                              db='amitheasshole',
                              autocommit=True)
 try:
