@@ -6,8 +6,11 @@ import getCommentScore
 
 
 def get_posts_file():
-    # checking if a txt file following the posts that were already commented on
-    # created or not
+    """
+    checking if a txt file following the posts that were already commented on
+    created or not
+    :return: a list of the previous posts we have commented
+    """
     if not os.path.isfile("AMITA_posts_replied_to.txt"):
         posts_replied_to = []
     else:  # opens the already created txt file to make sure we're not double
@@ -21,7 +24,12 @@ def get_posts_file():
 
 # comments on at max 8 new posts from AMITHEASSHOLE subreddit
 def commenting(reddit):
-    # open posts replied to file
+    """
+    comment on new posts
+
+    :param reddit: a reddit instance using praw
+    :return: a list of new posts we've replied to
+    """
     posts_replied_to = get_posts_file()
 
     possible_answers = ['YTA', 'NTA', 'ESH', 'NAH']
@@ -42,8 +50,12 @@ def commenting(reddit):
     return posts_replied_to
 
 
-# insert each new comment to an SQL DB
 def insert_to_db(posts_replied_to):
+    """
+    insert each new comment to an SQL DB
+    :param posts_replied_to: list of new posts we've replied to
+    :return: None
+    """
     # connect to DB
     connection = pymysql.connect(host='localhost',
                                  user='root',
@@ -68,7 +80,11 @@ def insert_to_db(posts_replied_to):
 
 
 def add_posts_to_txt(posts_replied_to):
-    # writes the newly added posts we commented on to the txt file
+    """
+    writes the newly added posts we commented on to the txt file
+    :param posts_replied_to: list of new posts replied to
+    :return: None
+    """
     with open("AMITA_posts_replied_to.txt", "w") as f:
         for post_id in posts_replied_to:
             for item in post_id:
@@ -77,6 +93,10 @@ def add_posts_to_txt(posts_replied_to):
 
 
 def main():
+    """
+    Calls all functions in the right order to do the work
+    :return: None
+    """
     # Create the Reddit instance
     reddit = praw.Reddit('bot2')
     # comment on new posts

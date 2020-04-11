@@ -1,14 +1,21 @@
 import pymysql.cursors
 import AmITheAH_Study_Settings
 
+
 def update_comment_score(reddit):
+    """
+    Looks through a user history and updates the SQL row per comment with
+    the comments score
+    :param reddit: a reddit instance using praw
+    :return: none
+    """
     # connect to mysql
     connection = pymysql.connect(host='localhost',
-                             user='root',
-                             port=3306,
-                             password=AmITheAH_Study_Settings.pwd,
-                             db='amitheasshole',
-                             autocommit=True)
+                                 user='root',
+                                 port=3306,
+                                 password=AmITheAH_Study_Settings.pwd,
+                                 db='amitheasshole',
+                                 autocommit=True)
     try:
         with connection.cursor() as cursor:
             user_comments = reddit.redditor(
