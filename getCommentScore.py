@@ -1,4 +1,3 @@
-import praw
 import pymysql.cursors
 import AmITheAH_Study_Settings
 
@@ -12,7 +11,8 @@ def update_comment_score(reddit):
                              autocommit=True)
     try:
         with connection.cursor() as cursor:
-            user_comments = reddit.redditor("MotherBroccoli1").comments.new(limit=None)
+            user_comments = reddit.redditor(
+                AmITheAH_Study_Settings.user_name).comments.new(limit=None)
             for comment in user_comments:
                 score = comment.score
                 comment_id = comment.id

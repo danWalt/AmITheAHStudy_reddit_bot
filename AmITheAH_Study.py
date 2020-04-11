@@ -18,6 +18,7 @@ def get_posts_file():
             posts_replied_to = list(filter(None, posts_replied_to))
     return posts_replied_to
 
+
 # comments on at max 8 new posts from AMITHEASSHOLE subreddit
 def commenting(reddit):
     # open posts replied to file
@@ -38,14 +39,8 @@ def commenting(reddit):
             posts_replied_to.append([submission.id, text, comment.id])
             posts_replied_to = list(filter(None, posts_replied_to))
             i += 1
-    # writes the newly added posts we commented on to the txt file
-    with open("AMITA_posts_replied_to.txt", "w") as f:
-        for post_id in posts_replied_to:
-            for item in post_id:
-                f.write(item)
-            f.write('\n')
-
     return posts_replied_to
+
 
 # insert each new comment to an SQL DB
 def insert_to_db(posts_replied_to):
@@ -72,6 +67,13 @@ def insert_to_db(posts_replied_to):
         connection.close()
 
 
+def add_posts_to_txt(posts_replied_to):
+    # writes the newly added posts we commented on to the txt file
+    with open("AMITA_posts_replied_to.txt", "w") as f:
+        for post_id in posts_replied_to:
+            for item in post_id:
+                f.write(item)
+            f.write('\n')
 
 
 def main():
@@ -81,6 +83,8 @@ def main():
     posts_replied_to = commenting(reddit)
     # inserting new comments to SQL DB
     insert_to_db(posts_replied_to)
+    # add new posts commented on to txt file
+    add_posts_to_txt(posts_replied_to)
     # update all comments score column
     getCommentScore.update_comment_score(reddit)
 
